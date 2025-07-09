@@ -3,6 +3,8 @@ import "@/styles/globals.css"
 import { LucideHome } from "lucide-react"
 import type { Metadata } from "next"
 
+import BottomNavigation from "./bottom-navigation"
+
 export const metadata: Metadata = {
   title: "Fillout take home",
   description: "Fillout take home assignment",
@@ -31,7 +33,9 @@ export default function RootLayout({
                   {children}
                 </div>
               </main>
-              <div className="flex h-16 px-8">Bottom Navigation</div>
+              <div className="flex h-16 px-8">
+                <BottomNavigation />
+              </div>
             </div>
           </div>
         </div>
