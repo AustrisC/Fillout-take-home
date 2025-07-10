@@ -17,9 +17,11 @@ import {
   horizontalListSortingStrategy,
   SortableContext,
 } from "@dnd-kit/sortable"
+import { Plus } from "lucide-react"
 import dynamic from "next/dynamic"
 
 import DottedLine from "@/app/dotted-line"
+import { Button } from "@/components/ui/button"
 
 import { useNavigation } from "./navigation-context"
 // Imports this way to avoid a hydration mismatch
@@ -54,6 +56,28 @@ export default function BottomNavigation() {
     }),
   )
 
+  function AddPage() {
+    const maxId =
+      items.length > 0 ? Math.max(...items.map((item) => item.id)) : 0
+    const addClick = () => {
+      setItems((items) => [...items, { id: maxId + 1, title: "New Item" }])
+    }
+
+    return (
+      <>
+        <DottedLine setItems={setItems} currentIndex={maxId} />
+        <Button
+          variant="fillout"
+          onClick={addClick}
+          className="bg-white border-1 hover:bg-white"
+        >
+          <Plus color="black" />
+          <div className="text-black">Add page</div>
+        </Button>
+      </>
+    )
+  }
+
   return (
     <DndContext
       collisionDetection={closestCorners}
@@ -80,6 +104,7 @@ export default function BottomNavigation() {
             </div>
           ))}
         </SortableContext>
+        <AddPage />
       </div>
     </DndContext>
   )

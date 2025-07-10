@@ -28,7 +28,7 @@ export default function RootLayout({
                 <div className="flex-1" />
               </aside>
               <div className="flex flex-col flex-1">
-                <main className="flex flex-col flex-1 p-6 pb-3">
+                <main className="flex flex-col flex-1 p-6 pb-0">
                   <div className="bg-gray-900 text-white p-6 flex-1 rounded-xl">
                     {children}
                   </div>

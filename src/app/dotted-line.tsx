@@ -18,7 +18,7 @@ export default function DottedLine({
       // IDs as increasing integers
       const maxId =
         items.length > 0 ? Math.max(...items.map((item) => item.id)) : 0
-      const newItem = { id: maxId + 1, title: "New Item" }
+      const newItem = { id: maxId + 1, title: "New Page" }
 
       // Inserts new item where + button was clicked
       return items
