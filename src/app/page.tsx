@@ -1,3 +1,8 @@
+"use client"
+
+import { useNavigation } from "./navigation-context"
 export default function Home() {
-  return <div>Hello</div>
+  const { items, activeId } = useNavigation()
+  const activeItem = items.find((i) => i.id === activeId)
+  return <div>{activeItem ? activeItem.title : "No item selected"}</div>
 }

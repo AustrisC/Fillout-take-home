@@ -18,24 +18,17 @@ import {
   SortableContext,
 } from "@dnd-kit/sortable"
 import dynamic from "next/dynamic"
-import { useState } from "react"
 
 import DottedLine from "@/app/dotted-line"
-import { BottomNavigationItem } from "@/lib/types"
+
+import { useNavigation } from "./navigation-context"
 // Imports this way to avoid a hydration mismatch
 const NavigationItem = dynamic(() => import("@/app/navigation-item"), {
   ssr: false,
 })
 
 export default function BottomNavigation() {
-  // TODO: change this - sets the first page as active one by default
-  const [activeId, setActiveId] = useState<number | null>(1)
-  const [items, setItems] = useState<BottomNavigationItem[]>([
-    { id: 1, title: "Details" },
-    { id: 2, title: "Other" },
-    { id: 3, title: "Ending" },
-  ])
-
+  const { items, activeId, setActiveId, setItems } = useNavigation()
   const getTaskPosition = (id: number) =>
     items.findIndex((item) => item.id === id)
 

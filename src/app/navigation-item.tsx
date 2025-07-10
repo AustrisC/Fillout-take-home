@@ -4,10 +4,9 @@ import React from "react"
 
 import DropdownMenu from "@/app/dropdown-menu"
 import { Button } from "@/components/ui/button"
+import { type NavigationItem } from "@/lib/types"
 
-interface NavigationItemProps {
-  id: number
-  title: string
+interface NavigationItemProps extends NavigationItem {
   isActive: boolean
   onClick: () => void
   onDelete?: () => void

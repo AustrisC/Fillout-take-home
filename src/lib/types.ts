@@ -1,4 +1,1 @@
-export type BottomNavigationItem = {
-  id: number
-  title: string
-}
+export type NavigationItem = { id: number; title: string }

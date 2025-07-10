@@ -2,10 +2,10 @@ import { PlusCircle } from "lucide-react"
 import React from "react"
 
 import { Button } from "@/components/ui/button"
-import { BottomNavigationItem } from "@/lib/types"
+import { type NavigationItem } from "@/lib/types"
 
 type DottedLineProps = {
-  setItems: React.Dispatch<React.SetStateAction<BottomNavigationItem[]>>
+  setItems: React.Dispatch<React.SetStateAction<NavigationItem[]>>
   currentIndex: number
 }
 
@@ -20,6 +20,7 @@ export default function DottedLine({
         items.length > 0 ? Math.max(...items.map((item) => item.id)) : 0
       const newItem = { id: maxId + 1, title: "New Item" }
 
+      // Inserts new item where + button was clicked
       return items
         .slice(0, currentIndex + 1)
         .concat(newItem, items.slice(currentIndex + 1))
