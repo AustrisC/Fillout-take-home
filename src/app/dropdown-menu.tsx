@@ -19,13 +19,15 @@ import {
 
 type DropdownMenuComponentProps = {
   onDelete?: () => void
+  onOpenChange?: (open: boolean) => void
 }
 
 export default function DropdownMenuComponent({
   onDelete,
+  onOpenChange,
 }: DropdownMenuComponentProps) {
   return (
-    <DropdownMenu>
+    <DropdownMenu onOpenChange={onOpenChange}>
       <DropdownMenuTrigger asChild>
         <a>
           <EllipsisVertical color="grey" />

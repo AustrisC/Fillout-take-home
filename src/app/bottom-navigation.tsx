@@ -18,19 +18,30 @@ import {
   SortableContext,
 } from "@dnd-kit/sortable"
 import { Plus } from "lucide-react"
-import dynamic from "next/dynamic"
+import { useEffect, useRef, useState } from "react"
 
-import DottedLine from "@/app/dotted-line"
+import NavigationItem from "@/app/navigation-item"
+import PlusButton from "@/app/plus-button"
 import { Button } from "@/components/ui/button"
 
 import { useNavigation } from "./navigation-context"
-// Imports this way to avoid a hydration mismatch
-const NavigationItem = dynamic(() => import("@/app/navigation-item"), {
-  ssr: false,
-})
 
 export default function BottomNavigation() {
   const { items, activeId, setActiveId, setItems } = useNavigation()
+  const [distance, setDistance] = useState<number | null>(null)
+  const infoRef = useRef<HTMLDivElement>(null)
+  const addRef = useRef<HTMLDivElement>(null)
+  const defaultDistance = 660
+
+  // Calculation used for a dynamic dotted line calculation
+  useEffect(() => {
+    if (infoRef.current && addRef.current) {
+      const infoRect = infoRef.current.getBoundingClientRect()
+      const addRect = addRef.current.getBoundingClientRect()
+      setDistance(addRect.right - infoRect.left)
+    }
+  }, [items])
+
   const getTaskPosition = (id: number) =>
     items.findIndex((item) => item.id === id)
 
@@ -65,7 +76,6 @@ export default function BottomNavigation() {
 
     return (
       <>
-        <DottedLine setItems={setItems} currentIndex={maxId} />
         <Button
           variant="fillout"
           onClick={addClick}
@@ -85,26 +95,46 @@ export default function BottomNavigation() {
       modifiers={[restrictToHorizontalAxis, restrictToWindowEdges]}
       sensors={sensors}
     >
-      <div className="flex items-center">
-        <SortableContext items={items} strategy={horizontalListSortingStrategy}>
-          {items.map((item, idx) => (
-            <div className="flex items-center" key={item.id}>
-              <NavigationItem
-                id={item.id}
-                title={item.title}
-                isActive={activeId === item.id}
-                onClick={() => setActiveId(item.id)}
-                onDelete={() =>
-                  setItems((items) => items.filter((i) => i.id !== item.id))
-                }
-              />
-              {idx < items.length - 1 && (
-                <DottedLine setItems={setItems} currentIndex={idx} />
-              )}
-            </div>
-          ))}
-        </SortableContext>
-        <AddPage />
+      <div className="flex items-center relative">
+        <svg width={distance || defaultDistance} height={50} className="-z-10">
+          <line
+            x1={0}
+            x2={distance || defaultDistance}
+            y1={25}
+            y2={25}
+            stroke="lightgrey"
+            strokeWidth={1}
+            strokeDasharray="3,3"
+          />
+        </svg>
+        <div className="flex absolute">
+          <SortableContext
+            items={items}
+            strategy={horizontalListSortingStrategy}
+          >
+            {items.map((item, idx) => (
+              <div
+                className="flex items-center"
+                key={item.id}
+                ref={idx === 0 ? infoRef : null}
+              >
+                <NavigationItem
+                  id={item.id}
+                  title={item.title}
+                  isActive={activeId === item.id}
+                  onClick={() => setActiveId(item.id)}
+                  onDelete={() =>
+                    setItems((items) => items.filter((i) => i.id !== item.id))
+                  }
+                />
+                <PlusButton setItems={setItems} currentIndex={idx} />
+              </div>
+            ))}
+          </SortableContext>
+          <div ref={addRef}>
+            <AddPage />
+          </div>
+        </div>
       </div>
     </DndContext>
   )

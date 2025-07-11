@@ -4,15 +4,15 @@ import React from "react"
 import { Button } from "@/components/ui/button"
 import { type NavigationItem } from "@/lib/types"
 
-type DottedLineProps = {
+type PlusButtonProps = {
   setItems: React.Dispatch<React.SetStateAction<NavigationItem[]>>
   currentIndex: number
 }
 
-export default function DottedLine({
+export default function PlusButton({
   setItems,
   currentIndex,
-}: DottedLineProps) {
+}: PlusButtonProps) {
   const clickAddButton = () => {
     setItems((items) => {
       // IDs as increasing integers
@@ -29,17 +29,7 @@ export default function DottedLine({
 
   return (
     <div className="flex items-center group relative">
-      <svg width={32} height={50} className="-z-10">
-        <line
-          x1={0}
-          x2={32}
-          y1={25}
-          y2={25}
-          stroke="lightgrey"
-          strokeWidth={1}
-          strokeDasharray="3,3"
-        />
-      </svg>
+      <div className="w-8"></div>
       <Button
         variant="ghost"
         size="icon"

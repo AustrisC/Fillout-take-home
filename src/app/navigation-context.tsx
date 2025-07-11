@@ -5,6 +5,7 @@ import React, { createContext, useContext, useState } from "react"
 import { type NavigationItem } from "@/lib/types"
 
 const defaultItems: NavigationItem[] = [
+  { id: 0, title: "Info" },
   { id: 1, title: "Details" },
   { id: 2, title: "Other" },
   { id: 3, title: "Ending" },
@@ -22,7 +23,7 @@ export const NavigationProvider = ({
 }: {
   children: React.ReactNode
 }) => {
-  const [activeId, setActiveId] = useState<number | null>(1)
+  const [activeId, setActiveId] = useState<number | null>(0)
   const [items, setItems] = useState(defaultItems)
   return (
     <NavigationContext.Provider

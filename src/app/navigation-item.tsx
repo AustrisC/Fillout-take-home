@@ -1,5 +1,5 @@
 import { useSortable } from "@dnd-kit/sortable"
-import { EllipsisVertical, FileText } from "lucide-react"
+import { FileText } from "lucide-react"
 import React from "react"
 
 import DropdownMenu from "@/app/dropdown-menu"
@@ -27,6 +27,7 @@ export default function NavigationItem({
     transition,
     isDragging,
   } = useSortable({ id })
+  const [menuOpen, setMenuOpen] = React.useState(false)
 
   // Makes width and height static for elements - otherwise scaleX (width) was resizing when swapping positions
   const transformStatic = transform
@@ -49,7 +50,13 @@ export default function NavigationItem({
     : "border border-transparent"
 
   return (
-    <div ref={setNodeRef} {...attributes} {...listeners} style={style}>
+    <div
+      ref={setNodeRef}
+      {...attributes}
+      {...listeners}
+      style={style}
+      className="group"
+    >
       <Button
         variant="fillout"
         onClick={onClick}
@@ -57,11 +64,11 @@ export default function NavigationItem({
       >
         <FileText color={isActive ? "orange" : "grey"} />
         <div className={isActive ? "text-black" : "text-gray-500"}>{title}</div>
-        {isActive ? (
-          <DropdownMenu onDelete={onDelete} />
-        ) : (
-          <EllipsisVertical color="transparent" />
-        )}
+        <span
+          className={`opacity-${isActive || menuOpen ? "100" : "0"} group-hover:opacity-100 transition-opacity duration-200`}
+        >
+          <DropdownMenu onDelete={onDelete} onOpenChange={setMenuOpen} />
+        </span>
       </Button>
     </div>
   )
